@@ -1,4 +1,4 @@
-# GIT命令学习<sup>shine</up>
+# GIT命令学习<sup>shine</sup>
 ## 创建版本库
 ### 第一步：先建一个空目录
 ```JavaScript
@@ -7,7 +7,7 @@ $ cd es6  //进入相应文件夹
 $ pwd //显示当前目录
 /Users/shine/es6
 ```
-如果你使用Windows系统，为了避免遇到各种莫名其妙的问题，请确保目录名（包括父目录）不包含中文。
+如果你使用Windows系统，为了避免遇到各种莫名其妙的问题，请确保目录名（包括父目录）不包含`中文`。
 ### 第二步：通过git init命令把这个目录变成Git可以管理的仓库
 ```JavaScript
 $ git init
@@ -36,6 +36,14 @@ $ git commit -m "add 3 files."
 ```JavaScript
 $ git status
 ```
+查看缓存区文件：
+```JavaScript
+$ git ls-files
+$ git ls-files -u //显示冲突的文件
+$ git ls-files -s //是显示标记为冲突已解决的文件
+$ git ls-files --stage //检查保存在stage的文件 
+```
+更多参数查阅[Git Manual](http://web.mit.edu/jhawk/mnt/spo/git/git-doc/git.html)
 ### 第五步：比较文件变化情况
 ```JavaScript
 $ git diff readme.txt 
@@ -74,6 +82,28 @@ d574fe5 HEAD@{1}: commit: edit file
 a945af2 HEAD@{2}: commit: add storeroom
 8edcdce HEAD@{3}: commit (initial): add let
 ```
+## 删除文件并恢复
+### 第一步：删除文件
+```JavaScript
+$ rm test.txt
+```
+这里只删除本地文件，版本库里还有文件，如果你add了暂缓区也有呢。
+### 第二步：恢复文件
+```JavaScript
+$ git checkout -- test.txt
+```
+此时会从暂缓区恢复了文件。如果你删除文件同时又commit提交了，那么版本库里也没这文件了。除了从远程下载，我们还可以从历史记录里恢复。
+```JavaScript
+$ git reflog
+01ba12f HEAD@{1}: commit: delete text
+dc2fbe7 HEAD@{2}: commit: to delete
+```
+假如dc2fbe7就是你需要恢复的版本文件
+```JavaScript
+$ git checkout dc2fbe7 -- test.txt
+```
+此时文件成功恢复了。
+
 ## 同步远程库
 ### 第一步：创建SSH Key
 ```JavaScript
@@ -95,8 +125,12 @@ $ git clone git@github.com:scscms/es6.git
 ```
 详细参见： [GIT教程 提升篇](http://www.scscms.com/html/article/20150409-19457815.html)
 
-
-
+## 分支管理
+### 第一步：删除文件
+```JavaScript
+$ rm test.txt
+```
+这里只删除本地文件，版本库里还有文件，如果你add了暂缓区也有呢。
 
 
 

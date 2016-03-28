@@ -27391,7 +27391,7 @@ System.registerModule("traceur@0.0.93/src/outputgeneration/regexpuRewritePattern
                 $this.data = dataAdd($this.data, isNumber(value) ? value : symbolToCodePoint(value));
                 return $this;
             },
-            'remove': function(value) {
+            "clean": function(value) {
                 var $this = this;
                 if (value == null) {
                     return $this;
@@ -28533,7 +28533,7 @@ System.registerModule("traceur@0.0.93/src/outputgeneration/regexpuRewritePattern
     }
     var UNICODE_SET = regenerate().addRange(0x0, 0x10FFFF);
     var BMP_SET = regenerate().addRange(0x0, 0xFFFF);
-    var DOT_SET_UNICODE = UNICODE_SET.clone().remove(0x000A, 0x000D, 0x2028, 0x2029);
+    var DOT_SET_UNICODE = UNICODE_SET.clone().clean(0x000A, 0x000D, 0x2028, 0x2029);
     var DOT_SET = DOT_SET_UNICODE.clone().intersection(BMP_SET);
     regenerate.prototype.iuAddRange = function(min, max) {
         var $this = this;
@@ -28604,7 +28604,7 @@ System.registerModule("traceur@0.0.93/src/outputgeneration/regexpuRewritePattern
             }
         });
         if (characterClassItem.negative) {
-            set = (unicode ? UNICODE_SET : BMP_SET).clone().remove(set);
+            set = (unicode ? UNICODE_SET : BMP_SET).clone().clean(set);
         }
         update(characterClassItem, set.toString());
         return characterClassItem;
