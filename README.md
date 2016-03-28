@@ -1,85 +1,85 @@
-# babel±àÒëES6<sup>shine</up>
-ECMAScript 6(ES6) µÄ·¢Õ¹»òÕßËµÆÕ¼°Ö®¿ì¿ÉÒÔËµÊÇÄÑÒÔÏëÏóµÄ£¬¶ÔºÜ¶àÈËÀ´Ëµ ECMAScript 5(ES5) ¶¼»¹ÆÕ¼°ÄØ¡£ÏÖ´úä¯ÀÀÆ÷¶Ô ES6 ĞÂÌØĞÂ»ò¶à»òÉÙµÄÓĞĞ©Ö§³Ö£¬µ«Ö§³Ö¶È²»¸ß£¬ËùÒÔÒªÏëÔÚä¯ÀÀÆ÷ÖĞÖ±½ÓÊ¹ÓÃ ES6 µÄĞÂÌØĞÔ£¬»¹µÃµÈÉÏÒ»¶ÎÊ±¼ä¡£
-¶Ô ES6 µÄÆÕ¼°Æğµ½ÖÁ¹ØÖØÒªµÄ¾Í²»µÃ²»Ëµ babel ÁË¡£ babel ¿ÉÒÔ½« ES6 ´úÂëÍêÃÀµØ×ª»»Îª ES5 ´úÂë£¬ËùÒÔÎÒÃÇ²»ÓÃµÈµ½ä¯ÀÀÆ÷µÄÖ§³Ö¾Í¿ÉÒÔÔÚÏîÄ¿ÖĞÊ¹ÓÃ ES6 µÄÌØĞÔ¡£ 
-### °²×°babel
+# babelç¼–è¯‘ES6<sup>shine</up>
+ECMAScript 6(ES6) çš„å‘å±•æˆ–è€…è¯´æ™®åŠä¹‹å¿«å¯ä»¥è¯´æ˜¯éš¾ä»¥æƒ³è±¡çš„ï¼Œå¯¹å¾ˆå¤šäººæ¥è¯´ ECMAScript 5(ES5) éƒ½è¿˜æ™®åŠå‘¢ã€‚ç°ä»£æµè§ˆå™¨å¯¹ ES6 æ–°ç‰¹æ–°æˆ–å¤šæˆ–å°‘çš„æœ‰äº›æ”¯æŒï¼Œä½†æ”¯æŒåº¦ä¸é«˜ï¼Œæ‰€ä»¥è¦æƒ³åœ¨æµè§ˆå™¨ä¸­ç›´æ¥ä½¿ç”¨ ES6 çš„æ–°ç‰¹æ€§ï¼Œè¿˜å¾—ç­‰ä¸Šä¸€æ®µæ—¶é—´ã€‚
+å¯¹ ES6 çš„æ™®åŠèµ·åˆ°è‡³å…³é‡è¦çš„å°±ä¸å¾—ä¸è¯´ babel äº†ã€‚ babel å¯ä»¥å°† ES6 ä»£ç å®Œç¾åœ°è½¬æ¢ä¸º ES5 ä»£ç ï¼Œæ‰€ä»¥æˆ‘ä»¬ä¸ç”¨ç­‰åˆ°æµè§ˆå™¨çš„æ”¯æŒå°±å¯ä»¥åœ¨é¡¹ç›®ä¸­ä½¿ç”¨ ES6 çš„ç‰¹æ€§ã€‚ 
+### å®‰è£…babel
 ```JavaScript
 $ npm install -g babel
 ```
-Ò»°ãÀ´Ëµ°²×°nodeÄ£¿é£¬Ê¹ÓÃ¹ÙÍøËÙ¶È±È½ÏÂı£¬ËùÒÔ½¨ÒéÊ¹ÓÃÌÔ±¦ÂË¾µÎÄ¼ş¡£
+ä¸€èˆ¬æ¥è¯´å®‰è£…nodeæ¨¡å—ï¼Œä½¿ç”¨å®˜ç½‘é€Ÿåº¦æ¯”è¾ƒæ…¢ï¼Œæ‰€ä»¥å»ºè®®ä½¿ç”¨æ·˜å®æ»¤é•œæ–‡ä»¶ã€‚
 ```JavaScript
 $ npm install -g babel --registry=https://registry.npm.taobao.org
 ```
-### ²âÊÔ±àÒë
+### æµ‹è¯•ç¼–è¯‘
 ```JavaScript
 $ babel es6.js
 ```
-ÌáÊ¾´íÎó£º
+æç¤ºé”™è¯¯ï¼š
 ```JavaScript
 The CLI has been moved into the package `babel-cli`.
 npm install -g babel-cli
 ```
-ÒªÇó°²×°babel-cli,ÄÇÃ´Äã¾Í°²×°ßÂ£º
+è¦æ±‚å®‰è£…babel-cli,é‚£ä¹ˆä½ å°±å®‰è£…å‘—ï¼š
 ```JavaScript
 $ npm install -g babel-cli
 ```
-»òÕßÌáÊ¾£º
+æˆ–è€…æç¤ºï¼š
 ```JavaScript
 You have mistakenly installed th `babel` packge, which is a no-op in Babel ......
     npm uninstall babel
     npm install babel-cli
 See http://babeljs.io/docs/usage/cli/ for setup instructions.
 ```
-ÒâË¼ÒªÇóÉ¾³ıbabelÖ±½Ó°²×°babel-cli£¬ÄÇÃ´ÇëÖ±½ÓÖ´ĞĞ£º
+æ„æ€è¦æ±‚åˆ é™¤babelç›´æ¥å®‰è£…babel-cliï¼Œé‚£ä¹ˆè¯·ç›´æ¥æ‰§è¡Œï¼š
 ```JavaScript
 $ npm uninstall babel
 $ npm install -g babel-cli --registry=https://registry.npm.taobao.org
 ```
-### ÔÙ´Î²âÊÔ±àÒë
+### å†æ¬¡æµ‹è¯•ç¼–è¯‘
 ```JavaScript
 $ babel es6.js
 ```
-Êä³öÈÔÊÇES6Ô´Âë£¡ÂêÄá£¿
-Ô­À´ÊÇÃ»ÓĞ°²×°babel-preset-es2015²å¼ş£¬ÔÙ°²×°°É£º
+è¾“å‡ºä»æ˜¯ES6æºç ï¼ç›å°¼ï¼Ÿ
+åŸæ¥æ˜¯æ²¡æœ‰å®‰è£…babel-preset-es2015æ’ä»¶ï¼Œå†å®‰è£…å§ï¼š
 ```JavaScript
 $ npm install babel-preset-es2015 --registry=https://registry.npm.taobao.org
 ```
-È»ºóÖ´ĞĞ£º
+ç„¶åæ‰§è¡Œï¼š
 ```JavaScript
 $ babel es6.js --presets es2015
 ```
-ÖÕÓÚ¿ÉÒÔÀ²¡£
-### ±àÒë³ÉÎÄ¼ş
-±àÒëµ¥ÈËÎÄ¼şÎªES5
+ç»ˆäºå¯ä»¥å•¦ã€‚
+### ç¼–è¯‘æˆæ–‡ä»¶
+ç¼–è¯‘å•äººæ–‡ä»¶ä¸ºES5
 ```JavaScript
 $ babel es6.js --presets es2015 -o es5.js
-  # »òÕß
+  # æˆ–è€…
 $ babel es6.js --presets es2015 --out-file es5.js
 ```
-Ò²¿ÉÒÔÕû¸öÎÄ¼ş¼Ğ±àÒë£¬es6ÎÄ¼şËùÓĞÎÄ¼ş±àÒëµ½es5ÎÄ¼ş¼ĞÏÂ£º
+ä¹Ÿå¯ä»¥æ•´ä¸ªæ–‡ä»¶å¤¹ç¼–è¯‘ï¼Œes6æ–‡ä»¶æ‰€æœ‰æ–‡ä»¶ç¼–è¯‘åˆ°es5æ–‡ä»¶å¤¹ä¸‹ï¼š
 ```JavaScript
 $ babel es6/ --presets es2015 -d es5/
-# »òÕß
+# æˆ–è€…
 $ babel es6/ --out-dir es5/
 ```
-Õû¸öÎÄ¼ş¼Ğ±àÒëµ½Ò»¸öjsÎÄ¼şÀï£º
+æ•´ä¸ªæ–‡ä»¶å¤¹ç¼–è¯‘åˆ°ä¸€ä¸ªjsæ–‡ä»¶é‡Œï¼š
 ```JavaScript
 $ babel es6/ --out-file es5.js
 ```
-### ±àÒëÍ¬Ê±Éú³ÉÔ´ÎÄ¼ş
+### ç¼–è¯‘åŒæ—¶ç”Ÿæˆæºæ–‡ä»¶
 ```JavaScript
 $ babel script.js --out-file script-compiled.js --source-maps
-# »ò
+# æˆ–
 $ babel script.js -o script-compiled.js --s
 ```
-Èç¹ûÄãÏëÉú³ÉÖ»ÓĞÒ»ĞĞµÄÎÄ¼ş£¬¿ÉÊ¹ÓÃinline²ÎÊı£º
+å¦‚æœä½ æƒ³ç”Ÿæˆåªæœ‰ä¸€è¡Œçš„æ–‡ä»¶ï¼Œå¯ä½¿ç”¨inlineå‚æ•°ï¼š
 ```JavaScript
 $ babel script.js --out-file script-compiled.js --source-maps inline
 ```
-### ÊµÊ±±àÒëÎÄ¼ş
+### å®æ—¶ç¼–è¯‘æ–‡ä»¶
 ```JavaScript
 $ babel --watch es6.js --out-file es5.js 
 ```
---watchÃüÁî¼´¿ªÆô¼àÌıÎÄ¼ş±à¼­¹¦ÄÜ£¬Ö»ÒªÓĞĞŞ¸Ä¾Í»áÍ¬²½±àÒëºÃ¡£ÄÇÄã¾Í¿ÉÒÔ¼´Ê±¿´µ½Ğ§¹ûÁË¡£
-Èç¹ûÒªÇ¿ÖÆÍË³ö¾Í°²Ctrl+C¼üÍË³ö¡£
+--watchå‘½ä»¤å³å¼€å¯ç›‘å¬æ–‡ä»¶ç¼–è¾‘åŠŸèƒ½ï¼Œåªè¦æœ‰ä¿®æ”¹å°±ä¼šåŒæ­¥ç¼–è¯‘å¥½ã€‚é‚£ä½ å°±å¯ä»¥å³æ—¶çœ‹åˆ°æ•ˆæœäº†ã€‚
+å¦‚æœè¦å¼ºåˆ¶é€€å‡ºå°±å®‰Ctrl+Cé”®é€€å‡ºã€‚
 
-[babelÊÓÆµ](http://ninghao.net/video/3076) 
+[babelè§†é¢‘](http://ninghao.net/video/3076) 
