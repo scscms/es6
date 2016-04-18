@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>co-thunk</title>
+    <script src="bin/traceur.js" type="text/javascript"></script>
+    <script src="bin/bootstrap.js" type="text/javascript"></script>
+</head>
+<body>
+一、什么是 co 函数库？
+co 函数库是著名程序员 TJ Holowaychuk 于2013年6月发布的一个小工具，用于 Generator 函数的自动执行。
+https://github.com/tj/co
+<script type="module">
+//比如，有一个 Generator 函数，用于依次读取两个文件。
+var gen = function* (){
+    var f1 = yield readFile('/etc/fstab');
+    var f2 = yield readFile('/etc/shells');
+    console.log(f1.toString());
+    console.log(f2.toString());
+};
+//co 函数库可以让你不用编写 Generator 函数的执行器。
+var co = require('co');
+co(gen);//Generator 函数只要传入 co 函数，就会自动执行。
+//co 函数返回一个 Promise 对象，因此可以用 then 方法添加回调函数。
+
+co(gen).then(function (){
+    console.log('Generator 函数执行完成');//等到 Generator 函数执行结束，就会输出一行提示。
+})
+</script>
+二、 co 函数库的原理
+Generator 函数就是一个异步操作的容器。它的自动执行需要一种机制，当异步操作有了结果，能够自动交回执行权。
+两种方法可以做到这一点:
+（1）回调函数。将异步操作包装成 Thunk 函数，在回调函数里面交回执行权。
+（2）Promise 对象。将异步操作包装成 Promise 对象，用 then 方法交回执行权。
+
+Thunk 函数的含义和用法：
+    thunk函数来源于参数的求值策略:"传值调用"（call by value）、"传名调用"（call by name）
+    <script type="text/javascript">
+    var x = 1;
+    function f(m){
+        return m * 2;
+    }
+    f(x + 5);//传值调用? 传名调用?
+
+    //编译器的"传名调用"实现，往往是将参数放到一个临时函数之中，再将这个临时函数传入函数体。这个临时函数就叫做 Thunk 函数。
+    var thunk = function () {
+        return x + 5;
+    };
+    function f(thunk){
+        return thunk() * 2;
+    }
+    //这就是 Thunk 函数的定义，它是"传名调用"的一种实现策略，用来替换某个表达式。
+    </script>
+    JavaScript 语言的 Thunk 函数:
+    JavaScript 语言是传值调用，它的 Thunk 函数含义有所不同。
+    在 JavaScript 语言中，Thunk 函数替换的不是表达式，而是多参数函数，将其替换成单参数的版本，且只接受回调函数作为参数。
+    <script type="text/javascript">
+        // 正常版本的readFile（多参数版本）
+        fs.readFile(fileName, callback);
+
+        // Thunk版本的readFile（单参数版本）
+        var readFileThunk = Thunk(fileName);
+        readFileThunk(callback);
+
+        function Thunk(fileName){
+            return function (callback){
+                return fs.readFile(fileName, callback);
+            };
+        }
+
+        //使用上面的转换器，生成 fs.readFile 的 Thunk 函数
+        var readFileThunk = Thunk(fs.readFile);
+        readFileThunk(fileA)(callback);
+
+        //======================与传说中的柯里化（Currying）类似!!!
+    </script>
+    扩展阅读 Thunkify NODEJS模块 https://github.com/tj/node-thunkify
+
+
+Generator 函数的流程管理
+你可能会问， Thunk 函数有什么用？回答是以前确实没什么用，但是 ES6 有了 Generator 函数，Thunk 函数现在可以用于 Generator 函数的自动流程管理。
+<script type="module">
+    var fs = require('fs');
+    var thunkify = require('thunkify');
+    var readFile = thunkify(fs.readFile);
+    var gen = function* (){
+        var r1 = yield readFile('/etc/fstab'); //谁来触发next() ?
+        console.log(r1.toString());
+        var r2 = yield readFile('/etc/shells');
+        console.log(r2.toString());
+    };
+
+    //======方法一 手动触发
+    var g = gen();
+    var r1 = g.next();
+    r1.value(function(err, data){
+        if (err) throw err;
+        var r2 = g.next(data);
+        r2.value(function(err, data){
+            if (err) throw err;
+            g.next(data);
+        });
+    });
+
+    //======方法二 Thunk 自动触发
+    function run(fn) {
+        var gen = fn();
+        function next(err, data) {
+            var result = gen.next(data);
+            if (result.done) return;
+            result.value(next);
+        }
+        next();
+    }
+    run(gen);
+    //run 函数就是一个 Generator 函数的自动执行器。
+    //内部的 next 函数就是 Thunk 的回调函数。
+    //next 函数先将指针移到 Generator 函数的下一步（gen.next 方法），
+    //然后判断 Generator 函数是否结束（result.done 属性），
+    //如果没结束，就将 next 函数再传入Thunk 函数（result.value 属性），否则就直接退出。
+</script>
+</body>
+</html>
