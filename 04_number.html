@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>es6-number</title>
+    <script src="bin/traceur.js" type="text/javascript"></script>
+    <script src="bin/bootstrap.js" type="text/javascript"></script>
+</head>
+<body>
+<h2>Number.isFinite(), Number.isNaN()</h2>
+<p>与全局方法isFinite()和isNaN()的区别在于是否将非数值的值转为数值再进行判断。</p>
+
+<h2>Number.parseInt(), Number.parseFloat()</h2>
+<p>与全局方法parseInt()和parseFloat()一样。</p>
+
+<h2>Number.isInteger()和安全整数</h2>
+<script type="text/javascript">
+    var min = Number.MIN_SAFE_INTEGER;
+    var max = Number.MAX_SAFE_INTEGER;
+    var outside = max + 1;
+    Number.isInteger(max); // true
+    Number.isSafeInteger(max); // true
+    Number.isInteger(outside); // true
+    Number.isSafeInteger(outside); // false
+</script>
+
+<h2>Math对象的扩展</h2>
+<script type="text/javascript">
+    //Math.trunc方法用于去除一个数的小数部分，返回整数部分。
+    console.log(Math.trunc(4.9)) ; // 4
+    //有一个方法与Math.trunc效果一样
+    console.log(~~4.9) ; // 4
+</script>
+
+<h2>Math对象的扩展</h2>
+<ul>
+    <li> Math.acosh(x)			返回x的反双曲余弦（inverse hyperbolic cosine）</li>
+    <li> Math.asinh(x)			返回x的反双曲正弦（inverse hyperbolic sine）</li>
+    <li> Math.atanh(x)			返回x的反双曲正切（inverse hyperbolic tangent）</li>
+    <li> Math.cbrt(x)			返回x的立方根</li>
+    <li> Math.clz32(x)			返回x的32位二进制整数表示形式的前导0的个数</li>
+    <li> Math.cosh(x)			返回x的双曲余弦（hyperbolic cosine）</li>
+    <li> Math.expm1(x)			返回eˆx - 1</li>
+    <li> Math.fround(x)		返回x的单精度浮点数形式</li>
+    <li> Math.hypot(...values)	返回所有参数的平方和的平方根</li>
+    <li> Math.imul(x, y)		返回两个参数以32位整数形式相乘的结果</li>
+    <li> Math.log1p(x)			返回1 + x的自然对数</li>
+    <li> Math.log10(x)			返回以10为底的x的对数</li>
+    <li> Math.log2(x)			返回以2为底的x的对数</li>
+    <li> Math.tanh(x)			返回x的双曲正切（hyperbolic tangent）</li>
+</ul>
+</body>
+</html>

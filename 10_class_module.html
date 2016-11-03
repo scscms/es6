@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>es6-Class和Module</title>
+    <script src="bin/traceur.js" type="text/javascript"></script>
+    <script src="bin/bootstrap.js" type="text/javascript"></script>
+</head>
+<body>
+<h2>Class基本语法</h2>
+<script type="text/javascript">
+    //ES5写法
+    function Point(x,y){
+        this.x = x;
+        this.y = y;
+    }
+    Point.prototype.toString = function () {
+        return '(' + this.x + ', ' + this.y + ')';
+    };
+</script>
+<script type="module">
+    //ES6定义类
+    class Point {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+        toString() {
+            return '('+this.x+', '+this.y+')';
+        }
+    }
+    var point = new Point(2, 3);//实例对象
+
+    typeof Point // "function"
+    Point === Point.prototype.constructor // true
+
+    //class表达式  与函数一样，Class也可以使用表达式的形式定义。
+    const MyClass = class Me {
+        getClassName() {
+            return Me.name;
+        }
+    }
+
+    //Class的继承
+    class ColorPoint extends Point {
+        constructor(x, y, color) {
+            //this.color = color; // ReferenceError
+            super(x, y);
+            this.color = color; // 正确
+        }
+    }
+</script>
+
+<h2>class的取值函数（getter）和存值函数（setter）</h2>
+<script type="module">
+    class MyClass {
+        get prop() {
+            return 'getter';
+        }
+        set prop(value) {
+            document.write('setter: '+ value);
+        }
+    }
+    let inst = new MyClass();
+    inst.prop = 123;  // setter: 123
+    inst.prop;   // 'getter'
+</script>
+
+<h2>Class的Generator方法</h2>
+<script type="module">
+    class Foo {
+        constructor(...args) {
+            this.args = args;
+        }
+        * [Symbol.iterator]() {
+            for (let arg of this.args) {
+                yield arg;
+            }
+        }
+    }
+    for (let x of new Foo('hello', 'world')) {
+        console.log(x);
+    }
+    // hello
+    // world
+</script>
+
+<h2>Class的静态方法</h2>
+<script type="module">
+    class Foo {
+        static classMethod() {
+            return 'hello';
+        }
+    }
+    Foo.classMethod() // 'hello'
+    var foo = new Foo();
+    foo.classMethod();  // TypeError: undefined is not a function
+
+    //父类的静态方法，可以被子类继承
+    class Bar extends Foo {}
+    Bar.classMethod(); // 'hello'
+</script>
+
+<h2>new.target属性</h2>
+<script type="module">
+    function Person(name) {
+        if (new.target !== undefined) {
+            this.name = name;
+        } else {
+            throw new Error('必须使用new生成实例');
+        }
+    }
+    var person = new Person('张三'); // 正确
+    var notAPerson = Person.call(person, '张三');  // 报错
+</script>
+
+<h2>Export命令</h2>
+<script type="module">
+    // profile.js
+    var firstName = 'Michael';
+    var lastName = 'Jackson';
+    var year = 1958;
+    export {firstName, lastName, year};
+</script>
+
+<h2>Import命令</h2>
+<script type="module">
+    // main.js
+    import {firstName, lastName, year} from './profile';
+    //或
+    import { lastName as surname } from './profile';
+</script>
+
+<h2>模块的整体输入</h2>
+<script type="module">
+    // circle.js
+    export function area(radius) {
+        return Math.PI * radius * radius;
+    }
+    export function circumference(radius) {
+        return 2 * Math.PI * radius;
+    }
+
+    /*然后，main.js输入circlek.js模块*/
+    // main.js
+    import { area, circumference } from 'circle';
+    document.write("圆面积：" + area(4));
+    document.write("圆周长：" + circumference(14));
+
+    //或
+    import * as circle from 'circle';
+    document.write("圆面积：" + circle.area(4));
+    document.write("圆周长：" + circle.circumference(14));
+</script>
+
+<h2>module命令</h2>
+<script type="module">
+    // main.js
+    module circle from 'circle';
+    document.write("圆面积：" + circle.area(4));
+    document.write("圆周长：" + circle.circumference(14));
+</script>
+
+<h2>Export default命令</h2>
+<script type="module">
+    // export-default.js
+    export default function () {
+        document.write('foo');
+    }
+    // import-default.js
+    import customName from './export-default';
+    customName(); // 'foo'
+</script>
+
+<h2>模块的继承</h2>
+<script type="module">
+    // circleplus.js
+    export * from 'circle';
+    export var e = 2.71828182846;
+    export default function(x) {
+        return Math.exp(x);
+    }
+    //或 circleplus.js
+    export { area as circleArea } from 'circle';
+
+    // main.js
+    module math from "circleplus";
+    import exp from "circleplus";
+    document.write(exp(math.pi));
+</script>
+</body>
+</html>

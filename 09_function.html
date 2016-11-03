@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>es6-function</title>
+    <script src="bin/traceur.js" type="text/javascript"></script>
+    <script src="bin/bootstrap.js" type="text/javascript"></script>
+</head>
+<body>
+<h2>函数参数的默认值</h2>
+<script type="module">
+    function log(x, y = 'World') {
+        //y = y || 'World';//ES5的方法 null和false和空值有bug
+        console.log(x, y);
+    }
+    function f({x, y = 5}) {}
+    (function(a = 5){}).length; // 0
+    (function(a, b, c = 5){}).length; // 2
+</script>
+
+<h2>rest参数</h2>
+<script type="text/javascript">
+    function rest(x,...y){
+        console.log(y);//[2,3,4,5]
+    }
+    rest(1,2,3,4,5);
+    //剩余参数和arguments对象之间的区别主要有三个:包含，真实数组，附加属性
+</script>
+
+<h2>扩展运算符</h2>
+<script type="module">
+    //参数使用扩展运算符的例子
+    Array.push(...items);//加入数组
+    var args = [0, 1];
+    f(-1, ...args, 2, ...[2,3]);//函数调用 可以避免使用apply
+    Math.max(...[14, 3, 77]);//传参
+    const [first, ...rest] = [1, 2, 3, 4, 5];//解构赋值  但只能放在参数的最后一位，否则会报错。
+    //扩展运算符还可以将一个数值或任何类似数组的对象扩展成数组
+    [...5];  // [0, 1, 2, 3, 4, 5]
+    [..."hello"];  // [ "h", "e", "l", "l", "o" ]
+    [...document.querySelectorAll('div')];
+    [...map.keys()];
+</script>
+
+<h2>箭头函数</h2>
+<p>箭头函数有几个使用注意点:this,no new,no arguments</p>
+<script type="module">
+    var f = function(v) {return v; };//传统函数
+    var f = v => v; //ES6 同上函数
+    var getTempItem = id => ({ id: id, name: "Temp" });//如果返回的是对象需要外面加上括号
+    var handler = {
+        id: "123456",
+        init: function() {
+            document.addEventListener("click",event => this.doSomething(event.type), false);//注意这里的this
+        },
+        doSomething: function(type) {
+            console.log("Handling " + type  + " for " + this.id);
+        }
+    };
+    handler.init();
+</script>
+
+<h2>函数绑定</h2>
+<script type="module">
+    //call apply bind
+    var x = 1;
+    var o = {x:3};
+    function multiply(num) {
+        return this.x * num;
+    }
+    var f = multiply.bind(o);
+    f(4);
+
+    //============ES6
+    foo::bar;
+    // 等同于
+    bar.bind(foo);
+    bar.call(foo);
+    bar.apply(foo);
+</script>
+
+<h2>尾调用优化</h2>
+<script type="module">
+    //指某个函数的最后一步是调用另一个函数。
+    function f(x){
+        return g(x);
+    }
+    // 非尾调用
+    function f(x){
+        let y = g(x);
+        return y;
+    }
+    function f(x){
+        return g(x) + 1;
+    }
+    function f(x){
+        g(x);
+    }
+</script>
+
+<h2>尾递归</h2>
+<script type="module">
+    // 函数调用自身，称为递归。如果尾调用自身，就称为尾递归。
+    //阶乘函数，计算n的阶乘，最多需要保存n个调用记录，复杂度 O(n)
+    function factorial(n) {
+        if (n === 1) return 1;
+        return n * factorial(n - 1);
+    }
+    factorial(5); // 120
+
+    //如果改写成尾递归，只保留一个调用记录，复杂度 O(1)
+    function factorial(n, total) {
+        if (n === 1) return total;
+        return factorial(n - 1, n * total);
+    }
+    factorial(5,1); // 120
+</script>
+
+<h2>递归函数的改写</h2>
+<script type="module">
+    //尾递归的实现，往往需要改写递归函数，确保最后一步只调用自身。
+    function tailFactorial(n, total) {
+        if (n === 1) return total;
+        return tailFactorial(n - 1, n * total);
+    }
+
+    function factorial(n) {
+        return tailFactorial(n, 1);
+    }
+
+    factorial(5) // 120
+    //函数式编程有一个概念，叫做柯里化（currying），意思是将多参数的函数转换成单参数的形式。这里也可以使用柯里化。
+    Function.prototype.currying = function() {
+        var that = this;
+        return function() {
+            return Function.prototype.call.apply(that, arguments);
+        }
+    }
+
+    //扩展 module/09_Currying.html
+</script>
+</body>
+</html>

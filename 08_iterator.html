@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>es6-iterator</title>
+    <script src="bin/traceur.js" type="text/javascript"></script>
+    <script src="bin/bootstrap.js" type="text/javascript"></script>
+</head>
+<body>
+<h2>概念</h2>
+<script type="text/javascript">
+    //ES5模拟遍历器生成函数
+    function makeIterator(array) {
+        var nextIndex = 0,len = array.length;
+        return {
+            next: function() {
+                return nextIndex < len ?
+                {value: array[nextIndex++], done: false} :
+                {value: undefined, done: true};
+            }
+        };
+    }
+    var it = makeIterator(['a', 'b']);
+    it.next(); // { value: "a", done: false }
+    it.next(); // { value: "b", done: false }
+    it.next(); // { value: undefined, done: true }
+</script>
+
+<p>关键词：指针、遍历、排序、for...of、指针、next</p>
+<script type="text/javascript">
+    var a = { x: 10,y: 20};
+    var iter = Iterator(a);
+    console.log(iter.next()); // ["x", 10]
+    console.log(iter.next()); // ["y", 20]
+    console.log(iter.next()); // throws StopIteration
+    //firefox支持
+</script>
+
+<h2>默认的Iterator接口</h2>
+<script type="text/javascript">
+    //在ES6中，有三类数据结构原生具备Iterator接口：数组、某些类似数组的对象、Set和Map结构。
+    let arr = ['a', 'b', 'c'];
+    let iter = arr[Symbol.iterator]();
+    iter.next(); // { value: 'a', done: false }
+    iter.next(); // { value: 'b', done: false }
+    iter.next(); // { value: 'c', done: false }
+    iter.next(); // { value: undefined, done: true }
+    //chrome支持
+</script>
+
+<h2>调用默认iterator接口的场合</h2>
+<script type="text/javascript">
+    //对数组和Set结构进行解构赋值时，会默认调用iterator接口。
+    let set = new Set().add('a').add('b').add('c');
+    let [x,y] = set;    // x='a'; y='b'
+
+    //扩展运算符（...）也会调用默认的iterator接口。
+    var str = 'hello';
+    [...str]; //  ['h','e','l','l','o']
+
+    /*以下场合也会用到默认的iterator接口。
+     yield*
+     Array.from()
+     Map(), Set(), WeakMap(), WeakSet()
+     Promise.all(), Promise.race() */
+</script>
+
+<h2>原生具备iterator接口的数据结构</h2>
+<script type="text/javascript">
+    var arr = [1, 5, 7];
+    var arrEntries = arr.entries();
+    arrEntries.toString();   // "[object Array Iterator]"
+    for(let [key,value] of arr.entries()){
+        console.log(key,value);
+    }
+
+    var someString = "hi";
+    var iterator = someString[Symbol.iterator]();
+    iterator.next();  // { value: "h", done: false }
+    iterator.next();  // { value: "i", done: false }
+    iterator.next();  // { value: undefined, done: true }
+</script>
+
+<h2>Iterator接口与Generator函数</h2>
+<script type="text/javascript">
+    var myIterable = {};
+    myIterable[Symbol.iterator] = function* () {
+        yield 1;
+        yield 2;
+        yield 3;
+    }
+    [...myIterable]; // [1, 2, 3]
+</script>
+
+<h2>return()，throw()</h2>
+
+<h2>For…of循环</h2>
+<script type="text/javascript">
+    const array = ['red', 'green', 'blue'];
+    let iterator  = array[Symbol.iterator]();//ArrayIterator {}
+    for(let k of iterator){
+        console.log(k);
+    }
+
+    var es6 = { edition: 6, committee: "TC39", standard: "ECMA-262"};
+    for (e of es6) {
+        console.log(e);// TypeError: es6 is not iterable
+    }
+    for (var key of Object.keys(es6)) {
+        console.log(key + ": " + es6[key]);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>es6-array</title>
+    <script src="bin/traceur.js" type="text/javascript"></script>
+    <script src="bin/bootstrap.js" type="text/javascript"></script>
+</head>
+<body>
+<h2>思考题:有些常见的类数组对象？</h2>
+<h2>Array.from</h2>
+<script type="text/javascript">
+    let ps = document.querySelectorAll('p');
+    Array.from(ps).forEach(function (p) {
+        console.log(p);
+    });
+</script>
+
+<h2>Array.of</h2>
+<script type="text/javascript">
+    Array.of(3, 11, 8); // [3,11,8]
+</script>
+
+<h2>数组实例的find()和findIndex()</h2>
+<script type="text/javascript">
+    //先参看ES5 Array其他方法
+    Array.isArray = function(obj) {};
+    Array.prototype.some = function(callback,thisArg) {};
+    Array.prototype.map = function(callback,thisArg) {};
+    Array.prototype.forEach = function(callback,thisArg) {};
+    Array.prototype.filter = function(callback,thisArg) {};
+    Array.prototype.every = function(callback,thisArg) {};
+    Array.prototype.lastIndexOf = function(searchElement,fromIndex) {};
+    Array.prototype.indexOf = function(searchElement,fromIndex) {};
+    Array.prototype.reduce = function(callback,initialValue) {};
+    Array.prototype.reduceRight = function(callback,initialValue) {};
+
+    [1, 4, -5, 10].find(function(value, index, arr) {
+        return value < 0;
+    }); //-5
+    [1, 5, 10, 15].findIndex(function(value, index, arr) {
+        return value > 9;
+    }); // 2
+</script>
+<h2>数组实例的fill()</h2>
+<script type="text/javascript">
+    ['a', 'b', 'c'].fill("钱"); // ["钱", "钱", "钱"]
+    ['a', 'b', 'c'].fill("米", 1, 2);  // ["a", "米", "c"]
+</script>
+<h2>数组实例的entries()，keys()和values()</h2>
+<script type="text/javascript">
+    for (let index of ['a', 'b'].keys()) {
+        console.log(index);// 0 ,  1
+    }
+    for (let elem of ['a', 'b'].values()) {
+        console.log(elem);// 'a', 'b'
+    }
+    for (let [key, value] of ['a', 'b'].entries()) {
+        console.log(key, value); // 0 'a', 1 'b'
+    }
+</script>
+<h2>数组实例的includes()</h2>
+<script type="text/javascript">
+    ["美女","野兽","狂野派对"].includes("美女");     // true
+
+    //思考：请使用for方法模拟includes功能？
+    Array.prototype.includes = Array.prototype.includes || function(value,index){
+        //完成代码
+    }
+</script>
+
+<h2>数组推导</h2>
+<script type="text/javascript">
+    [for (i of [1, 2, 3]) i * i]; //返回平方后的数组
+    [for (l of [1, 2, 3, 4]) l * 2]; // [2, 4, 6, 8]
+    //firefox浏览器支持
+</script>
+
+<h2>Array.observe()，Array.unobserve()</h2>
+<script type="text/javascript">
+    var arr = ['a', 'b', 'c'];
+    Array.observe(arr, function(changes) {
+        console.log(changes);//{name,object,type:["add", "update", "delete", "splice"],oldValue,index,removed,addedCount}
+    });
+    arr[1] = 'B';
+    // [{type: 'update', object: <arr>, name: '1', oldValue: 'b'}]
+    arr[3] = 'd';
+    // [{type: 'splice', object: <arr>, index: 3, removed: [], addedCount: 1}]
+    arr.splice(1, 2, 'beta', 'gamma', 'delta');
+    // [{type: 'splice', object: <arr>, index: 1, removed: ['B', 'c'], addedCount: 3}]
+    //chrome支持　'Object.observe' is deprecated and will be removed in M50
+</script>
+</body>
+</html>

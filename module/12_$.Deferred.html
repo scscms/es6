@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>es6-test</title>
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+    // jQuery异步操作示例
+    var Async = function () {
+        var delay = Math.floor(Math.random() * 5);// 生成一个0到5秒的延迟
+        var dfd = $.Deferred();// 创建一个Deffered对象
+        // 这里调用一个异步操作
+        setTimeout(function () {
+            if (delay <= 2) {
+                dfd.resolve('一切正常!');// 置dfd状态为resolved
+            } else {
+                dfd.reject('超时了!');// 置dfd状态为rejected
+            }
+        }, delay * 1000);
+        return dfd.promise();
+    };
+    // 监听事件
+    Async()
+            .done(function (data) {
+                console.log(data); // 如果延迟不大于三秒 输出dfd.resolve()中的数据 '一切正常!'
+            })
+            .fail(function (err) {
+                console.log(err); // 反之则 输出dfd.reject()中的数据 '超时了!'
+            })
+            .always(function () {
+                console.log('执行完毕!'); // 总是输出 '执行完毕!'
+            });
+
+    //console.log($.Deferred());
+</script>
+</body>
+</html>

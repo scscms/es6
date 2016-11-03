@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>es6-String</title>
+    <script src="bin/traceur.js" type="text/javascript"></script>
+    <script src="bin/bootstrap.js" type="text/javascript"></script>
+</head>
+<body>
+<h2>codePointAt()</h2>
+<script type="text/javascript">
+    var s = "𠮷a";
+    console.log(s.codePointAt(0)); // 134071
+    console.log(s.codePointAt(1)); // 57271
+</script>
+
+<h2>String.fromCodePoint()</h2>
+<script type="text/javascript">
+    console.log(String.fromCharCode(0x20BB7));// "ஷ" 返回码点U+0BB7对应的字符，而不是码点U+20BB7对应的字符
+    console.log(String.fromCodePoint(0x20BB7));// "𠮷" ES6fromCodePoint正确返回码点对应的字符
+</script>
+
+<h2>At()</h2>
+<script type="module">
+    console.info('𠮷'.charAt(0));  // '\uD842'
+    //console.info('𠮷'.at(0));    // '𠮷'  浏览器暂不支持
+</script>
+
+<h2>正则表示式的u y修饰符</h2>
+<p>扩展：正则修饰符igm</p>
+<script type="module">
+    console.log(/^.$/.test("𠮷")); // false
+    //console.log(/^.$/u.test("𠮷"); // true       浏览器暂不支持
+    var str = "aaa_aa_a";
+    console.info(str.match(/a+/g)); // ["aaa","aa","a"]
+    console.info(str.match(/a+/y)); // ["aaa"]  第二次匹配等同于 "_aa_a".match(/^a+/);所以没有结果
+</script>
+
+<h2>Normalize()</h2>
+<script type="text/javascript">
+    console.log('\u01D1'==='\u004F\u030C'); //false
+    console.log('\u01D1'.normalize() === '\u004F\u030C'.normalize());    // true
+</script>
+
+<h2>Includes(),startsWith(),endsWith(),repeat()</h2>
+<script type="module">
+    var str = "Hello world!";
+    console.log( str.startsWith("world", 6)); // true
+    console.info( str.endsWith("Hello", 5)); // true
+    console.log( str.includes("Hello", 6)); // false
+    var str1 = "hello";
+    console.log(str1.repeat(2)); // "hellohello"
+</script>
+
+<h2>Regexp.escape()</h2>
+<script type="module">
+    // RegExp.escape("(*.*)"); // "\(\*\.\*\)"  //浏览器暂不支持
+    //等同于以下函数
+    function escapeRegExp(str) {
+        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+    }
+</script>
+
+<h2>标签模板</h2>
+<script type="module">
+    var a = 5;
+    var b = 10;
+    function temp(arr,...arrs) {
+        for(var i = 0,str = '';i < arr.length; i++){
+            str += arr[i] + (arrs[i]||"");// 或 str += arr.raw[i] + (arrs[i]||'')
+        }
+        return str;
+    }
+    temp `这是a = ${a} 这是b = ${b} 总和 a + b = ${a + b}`;//注意没有括号调用
+</script>
+
+<h2>标签模板练习</h2>
+<p>你能写一个简单类似的标签模板吗？</p>
+<script type="text/javascript">
+    function template(str){
+        //添加代码实现 提示：使用正则匹配后替换内容
+    }
+    var x = 1,y = 2;
+    console.log(template("数学计算x + y = ${x} + ${y} = ${x + y}"));
+    //要求输出: 数学计算x + y = 1 + 2 = 3
+</script>
+
+<h2>String.raw()</h2>
+<script type="module">
+    String.raw`Hi\n${2+3}!`;   // "Hi\\n5!"
+    String.raw({ raw: 'test' }, 0, 1, 2);  // 't0e1s2t'
+</script>
+</body>
+</html>

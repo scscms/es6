@@ -17,9 +17,8 @@
     }
     var f = adder(5);
     f(1);//6
-</script>
 
-<script type="text/javascript">
+    //提前返回 应用
     var addEvent = function(el, type, fn, capture) {
         if (window.addEventListener) {
             el.addEventListener(type, function(e) {
@@ -31,7 +30,7 @@
             });
         }
     };
-    //提前返回
+
     var addEvents = (function(){
         if (window.addEventListener) {
             return function(el, sType, fn, capture) {
@@ -47,9 +46,7 @@
             };
         }
     })();
-</script>
 
-<script type="text/javascript">
     /* 指定参数个数 延迟执行
       var fn = function (a, b, c) {return a + b + c};
       function curryIt() {...}
@@ -57,13 +54,26 @@
     */
     var fn = function (a, b, c) {return a + b + c};
     function curryIt(fn) {
-        var arr=[],l = fn.length;
+        var arr　=　[],l = fn.length;
         return function(x){
             arr.push(x);
             return arr.length < l ? arguments.callee : fn.apply(null,arr);
         }
     }
     curryIt(fn)(1)(2)(3);//6
+</script>
+<script type="text/javascript">
+    //课后阅读　反柯里化
+    Function.prototype.unCurrying = function () {
+        var f = this;
+        return function () {
+            var a = arguments;
+            return f.apply(a[0], [].slice.call(a, 1));
+        };
+    };
+    Function.prototype.unCurrying = function () {
+        return this.call.bind(this);
+    };
 </script>
 </body>
 </html>

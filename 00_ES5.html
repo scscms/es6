@@ -2,50 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>es6-proxy</title>
-    <script src="bin/traceur.js" type="text/javascript"></script>
-    <script src="bin/bootstrap.js" type="text/javascript"></script>
+    <title>es5</title>
 </head>
 <body>
 <script type="module">
-    Object.create
-    Object.defineProperty
-    Object.defineProperties
-    Object.getPrototypeOf
-    Object.keys
-    Object.seal
-    Object.freeze
-    Object.preventExtensions
-    Object.isSealed
-    Object.isFrozen
-    Object.isExtensible
-    Object.getOwnPropertyDescriptor
-    Object.getOwnPropertyNames
-
-    Date.prototype.toISOString
-    Date.now
-    Date.prototype.toJSON
-    Date.parse on invalid dates
-    Array.isArray
-    JSON
-    Function.prototype.bind
-    String.prototype.trim
-
-    Array.prototype.indexOf
-    Array.prototype.lastIndexOf
-    Array.prototype.every
-    Array.prototype.some
-    Array.prototype.forEach
-    Array.prototype.map
-    Array.prototype.filter
-    Array.prototype.reduce
-    Array.prototype.reduceRight
-
-    Getter in property initializer
-    Setter in property initializer
-
-    //===================================================================
-
     JSON.parse = function(jsonString,reviver) {};
     JSON.stringify = function(value,replacer,space) {};
 
@@ -63,6 +23,9 @@
     Array.prototype.lastIndexOf = function(searchElement,fromIndex) {};
     Array.prototype.indexOf = function(searchElement,fromIndex) {};
     Array.prototype.reduce = function(callback,initialValue) {};
+    [0,1,2,3,4].reduce(function(previousValue, currentValue, index, array){
+        return previousValue + currentValue;
+    });
     Array.prototype.reduceRight = function(callback,initialValue) {};
 
     Object.create = function(proto,props) {};
@@ -85,8 +48,8 @@
     object.__proto__;
     Object.getOwnPropertyDescriptor = function(obj,prop) {};
 
-    Object.keys = function(obj) {};
-    Object.getOwnPropertyNames = function(obj) {};
+    Object.keys = function(obj) {};//可枚举的属性
+    Object.getOwnPropertyNames = function(obj) {};//所有私有属性名
 
     Object.getPrototypeOf = function(obj) {};
     Object.preventExtensions = function(obj) {};
@@ -96,10 +59,9 @@
     Object.freeze = function(obj) {};
     Object.isFrozen = function(obj) {};
 
-
-    Object.preventExtensions : 禁止扩展   configurable = true   writable = true
-    Object.seal				 : 禁止扩展   configurable = false  writable = true
-    Object.freeze			 : 禁止扩展   configurable = false  writable = false
+    Object.preventExtensions //: 禁止扩展   configurable = true   writable = true
+    Object.seal				 //: 密封对象   configurable = false  writable = true
+    Object.freeze			 //: 冻结对象   configurable = false  writable = false
 </script>
 </body>
 </html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>es6-proxy</title>
+</head>
+<body>
+<script type="text/javascript">
+    var loser = {house : "毛草房",car : "玩具车",deposit : 0.01};
+    var revocable = Proxy.revocable(loser,{
+        get:function(target,name){
+            if(name == "house"){
+                return "豪华别墅";
+            }else if(name == "car"){
+                return "劳斯莱斯+西尔贝";
+            }else if(name == "deposit"){
+                return -1 >>> 0;
+            }else{
+                return "保密";
+            }
+        }
+    });
+
+    var disguise = revocable.proxy; //开始代理==>装逼
+    console.log(disguise.house);    //查查房
+    console.log(disguise.car);      //查查车
+    console.log(disguise.deposit);  //查查存款
+
+    revocable.revoke();             //撤销代理==>实在没钱装逼
+    //console.log(disguise.house);  //查查房（报错，已经没代理）
+    console.info("================真实身份================");
+    console.log(loser.house);    //查查房
+    console.log(loser.car);      //查查车
+    console.log(loser.deposit);  //查查存款
+</script>
+</body>
+</html>

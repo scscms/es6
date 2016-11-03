@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>es6-const</title>
+    <script src="bin/traceur.js" type="text/javascript"></script>
+    <script src="bin/bootstrap.js" type="text/javascript"></script>
+</head>
+<body>
+<h2>变量作用域与let相同</h2>
+<script type="module">
+    const x = "我怕太太";
+    {
+        const x = "太太怕我";
+    }
+    console.log(x); //输出 ？
+</script>
+<h2>const 只是冻结引用地址</h2>
+<script type="module">
+    const x = {};
+    x.a = "属性没冻结";
+    console.log(x.a); //可以输出
+    // x = {} 尝试修改引用地址将报错
+</script>
+<h2>扩展：ES5冻结对象三种方法</h2>
+<script type="text/javascript">
+    //Object.preventExtensions 禁止扩展属性
+    //Object.freeze 冻结对象
+    //Object.seal   密封对象
+
+    //Object.isExtensible 判断是否可扩展属性
+    //Object.isFrozen 判断是否已经冻结对象
+    //Object.isSealed 判断是否已密封对象
+    var obj = {
+        value:"value",
+        writable: true,
+        enumerable: true,
+        configurable: true
+    };
+
+    var disExt = {};
+    Object.preventExtensions(disExt);
+    disExt.a = "a";
+    console.log(disExt.a);//undefined 虽然没报错，但赋值不成功
+    /*Object.defineProperty(disExt,"b",{
+        value:"b",
+        writable: true,
+        enumerable: true,
+        configurable: true
+    });*/
+    //尝试执行上面代码将报错：Uncaught TypeError: Cannot define property:b, object is not extensible.
+
+    var freeze = {a:"default"};
+    Object.freeze(freeze);
+    freeze.a = "edited";
+    console.log(freeze.a);// 仍然是 default
+
+    var seal = {};
+    Object.seal(seal);
+</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>es6-destructuring</title>
+    <script src="bin/traceur.js" type="text/javascript"></script>
+    <script src="bin/bootstrap.js" type="text/javascript"></script>
+</head>
+<body>
+<h2>数组的解构</h2>
+<script type="module">
+    var [x,y,z] = [1,2,3];
+    //解构出 x = 1,y = 2,z = 3
+</script>
+
+<h2>字符串的解构</h2>
+<script type="module">
+    let [a, b, c, d, e] = 'hello';
+console.log(a);// h
+console.log(b);// e
+console.log(c);// l
+console.log(d);// l
+console.log(e);// o
+</script>
+
+<h2>对象的解构</h2>
+<script type="module">
+var { foo, bar:f } = { foo: "aaa", bar: "bbb" };
+console.log(foo);// "aaa"
+console.log(f);// "bbb"
+console.log(bar);// ReferenceError: foo is not defined
+
+var to = "too";
+var a = {to};
+console.log(a);//Object { to="too"}
+
+var { x = 3 } = {}; // x = 3 指定默认值
+</script>
+
+<h2>失败的解构</h2>
+<script type="module">
+    var [foo] = [];
+    var [foo] = 1;
+    var [foo] = false;
+    var [foo] = NaN;
+    var [bar, foo] = [1];
+
+    var [foo] = undefined;//TypeError: undefined has no properties
+    var [foo] = null;//TypeError: null has no properties
+</script>
+
+<h2>用途</h2>
+<script style="module">
+    //（1）交换变量的值
+    [x, y] = [y, x];
+
+    //（2）从函数返回多个值
+    function example1() {
+        return [1, 2, 3];
+    }
+    var [a, b, c] = example1();
+
+    //（3）函数参数的定义
+    function f([x, y, z]) { }
+    f([1, 2, 3]);
+
+    function fu({x, y, z}) { }
+    fu({x:1, z:2, y:3});
+
+    //（4）提取JSON数据
+    var jsonData = {
+        id: 42,
+        status: "OK",
+        data: [867, 5309]
+    };
+    let { id, status, data: number } = jsonData;
+
+    //（5）函数参数的默认值
+    function f({async = true, foo = 1}) {}
+
+    //（6）遍历Map结构
+    var map = new Map();
+    map.set('first', 'hello');
+    map.set('second', 'world');
+    for (let [key, value] of map) {
+        console.log(key + " is " + value);
+    }
+
+    for (let [key] of map) {
+        // 获取键名
+    }
+
+    for (let [,value] of map) {
+        // 获取键值
+    }
+    //（7）输入模块的指定方法
+    let obj = require("something"); //普通写法
+    obj.a();
+    obj.b();
+
+    let { a, b } = require("something");//解构变量写法
+    a();
+    b();
+</script>
+</body>
+</html>

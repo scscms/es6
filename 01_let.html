@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>es6-Let</title>
+</head>
+<body>
+<h2>变量提升问题</h2>
+<script type="text/javascript">
+    if( ! 'a' in window){
+        var a = 1;
+    }
+    console.log(a); //想想为什么会是这样？
+
+    var f = function fun(){
+        //需要注意什么呢
+    }
+</script>
+<script type="module">
+    //================================= ver变量
+    var x = 0;
+    if(true){
+        var x = 2;
+    }
+    console.log("let x = "+ x); // 输出2
+
+    //================================= let变量
+    let y = 0;
+    if(true){
+        let y = 2;
+    }
+    console.log("let y = "+ y); // 相同代码上面输出2 这里输出0 为什么呢？
+</script>
+<h2>ver 变量没有块作用域</h2>
+<ul id="ul">
+    <li>点击弹出1</li>
+    <li>点击弹出2</li>
+    <li>点击弹出3</li>
+    <li>点击弹出4</li>
+</ul>
+<script type="text/javascript">
+    var li = document.getElementById("ul").getElementsByTagName("li");
+    for(var i = 0;i < li.length;i++){
+        li[i].onclick = function(){
+            alert(i);
+        }
+    }
+</script>
+<h2>练习：请使用let改写上面代码，使其符合要求。</h2>
+<ul id="ul_let">
+    <li>点击弹出1</li>
+    <li>点击弹出2</li>
+    <li>点击弹出3</li>
+    <li>点击弹出4</li>
+</ul>
+<script type="module">
+    var lis = document.getElementById("ul_let").getElementsByTagName("li");
+    //尝试在此补全代码
+</script>
+</body>
+</html>
